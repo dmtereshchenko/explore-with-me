@@ -24,6 +24,7 @@ public class StatsService {
         return HitMapper.toDto(repository.save(HitMapper.toHit(hitDto)));
     }
 
+    @Transactional(readOnly = true)
     public List<StatsDto> getAll(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         List<Stats> stats;
         if (unique) {
