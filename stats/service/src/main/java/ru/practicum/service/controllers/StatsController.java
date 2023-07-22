@@ -33,7 +33,6 @@ public class StatsController {
                                  @RequestParam(name = "uris", defaultValue = "") List<String> uris,
                                  @RequestParam(name = "unique", defaultValue = "False") Boolean unique) {
         log.info("Получен запрос GET /stats/");
-        System.out.println("start = " + start + "end = " + end + "uris = " + uris + "unique = " + unique);
         return service.getAll(start, end, uris, unique);
     }
 }
