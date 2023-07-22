@@ -35,7 +35,7 @@ public class StatsControllerTest {
     private final ObjectMapper mapper;
 
     private final HitDto hitDto = new HitDto(1L, "ewm-main-service", "events/1", "192.163.0.1", LocalDateTime.of(2022, 9, 6, 11, 00, 23));
-    private final StatsDto statsDto = (new StatsDto("ewm-main-service", "events/1", 9));
+    private final StatsDto statsDto = (new StatsDto("ewm-main-service", "events/1", 9L));
     private final List<StatsDto> stats = List.of(statsDto);
 
     @Test

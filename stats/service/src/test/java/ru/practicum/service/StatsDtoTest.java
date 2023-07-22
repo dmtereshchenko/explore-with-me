@@ -17,7 +17,7 @@ public class StatsDtoTest {
 
     @Test
     void serializeTest() throws Exception {
-        StatsDto statsDto = new StatsDto("ewm-main-service", "events/1", 9);
+        StatsDto statsDto = new StatsDto("ewm-main-service", "events/1", 9L);
         JsonContent<StatsDto> result = json.write(statsDto);
         assertThat(result).hasJsonPath("$.app");
         assertThat(result).hasJsonPath("$.uri");
