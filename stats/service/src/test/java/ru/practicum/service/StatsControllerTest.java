@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.practicum.Constant;
 import ru.practicum.dto.HitDto;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.service.controllers.StatsController;
@@ -48,7 +49,7 @@ public class StatsControllerTest {
                 .andExpect(jsonPath("$.app").value(hitDto.getApp()))
                 .andExpect(jsonPath("$.uri").value(hitDto.getUri()))
                 .andExpect(jsonPath("$.ip").value(hitDto.getIp()))
-                .andExpect(jsonPath("$.timestamp").value(hitDto.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+                .andExpect(jsonPath("$.timestamp").value(hitDto.getTimestamp().format(DateTimeFormatter.ofPattern(Constant.DTFormat))));
     }
 
     @Test

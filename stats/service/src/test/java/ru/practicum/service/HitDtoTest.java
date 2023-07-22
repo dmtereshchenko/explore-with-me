@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
+import ru.practicum.Constant;
 import ru.practicum.dto.HitDto;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,6 @@ public class HitDtoTest {
         assertThat(result).extractingJsonPathStringValue("$.app").isEqualTo(hitDto.getApp());
         assertThat(result).extractingJsonPathStringValue("$.uri").isEqualTo(hitDto.getUri());
         assertThat(result).extractingJsonPathStringValue("$.ip").isEqualTo(hitDto.getIp());
-        assertThat(result).extractingJsonPathStringValue("$.timestamp").isEqualTo(hitDto.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        assertThat(result).extractingJsonPathStringValue("$.timestamp").isEqualTo(hitDto.getTimestamp().format(DateTimeFormatter.ofPattern(Constant.DTFormat)));
     }
 }
