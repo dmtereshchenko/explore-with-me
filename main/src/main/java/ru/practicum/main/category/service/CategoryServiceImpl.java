@@ -24,12 +24,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final EventRepository eventRepository;
 
+    @Override
     public CategoryDto create(NewCategoryDto newCategoryDto) {
         if (categoryRepository.existsByName(newCategoryDto.getName()))
             throw new SomethingWentWrongException("Невозможно создать категорию с уже существующим названием.");
         return CategoryMapper.toDto(categoryRepository.save(CategoryMapper.toCategory(newCategoryDto)));
     }
 
+    @Override
     public CategoryDto update(Long categoryId, CategoryDto categoryDto) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
         if (categoryRepository.existsByName(categoryDto.getName()) && !categoryDto.getName().equals(category.getName())) {
@@ -39,17 +41,20 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.toDto(categoryRepository.save(category));
     }
 
+    @Override
     public void delete(Long categoryId) {
         if (!eventRepository.findEventsByCategoryId(categoryId).isEmpty())
             throw new SomethingWentWrongException("Невозможно удалить категорию, в которой есть созданные события.");
         categoryRepository.delete(categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId)));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public CategoryDto get(Long categoryId) {
         return CategoryMapper.toDto(categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId)));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<CategoryDto> getAll(int from, int size) {
         return categoryRepository.findAll(PageRequest.of(from / size, size)).stream()

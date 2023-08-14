@@ -24,11 +24,13 @@ public class CompilationServiceImpl implements CompilationService {
     private final CompilationRepository compilationRepository;
     private final EventRepository eventRepository;
 
+    @Override
     public CompilationDto create(NewCompilationDto newCompilationDto) {
         return CompilationMapper.toDto(compilationRepository.save(CompilationMapper.toCompilation(newCompilationDto,
                 newCompilationDto.getEvents() == null ? new ArrayList<>() : eventRepository.findAllById(newCompilationDto.getEvents()))));
     }
 
+    @Override
     public CompilationDto update(Long compilationId, UpdateCompilationAdminRequest request) {
         return CompilationMapper.toDto(compilationRepository.save(CompilationMapper.toCompilationUpdated(
                 compilationRepository.findById(compilationId).orElseThrow(() -> new CompilationNotFoundException(compilationId)),
@@ -37,15 +39,18 @@ public class CompilationServiceImpl implements CompilationService {
         )));
     }
 
+    @Override
     public void delete(Long compilationId) {
         compilationRepository.delete(compilationRepository.findById(compilationId).orElseThrow(() -> new CompilationNotFoundException(compilationId)));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public CompilationDto get(Long compilationId) {
         return CompilationMapper.toDto(compilationRepository.findById(compilationId).orElseThrow(() -> new CompilationNotFoundException(compilationId)));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<CompilationDto> getAll(boolean pinned, int from, int size) {
         return compilationRepository.findCompilationsByPinned(pinned, PageRequest.of(from / size, size)).stream()

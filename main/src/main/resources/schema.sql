@@ -68,6 +68,6 @@ CREATE TABLE IF NOT EXISTS comments (
     event_id            BIGINT              NOT NULL            REFERENCES      events       (id),
     text                VARCHAR(10000)      NOT NULL,
     created             TIMESTAMP           NOT NULL,
-    updated             TIMESTAMP           NOT NULL,
+    updated             TIMESTAMP,
     CONSTRAINT          pk_comment          PRIMARY KEY (id)
 );

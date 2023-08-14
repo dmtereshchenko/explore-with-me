@@ -22,7 +22,8 @@ public class ErrorHandler {
         return new ApiError(e.getMessage(), "Действие невозможно.", HttpStatus.FORBIDDEN.getReasonPhrase(), LocalDateTime.now().format(Constant.FORMATTER));
     }
 
-    @ExceptionHandler({CategoryNotFoundException.class, CompilationNotFoundException.class, EventNotFoundException.class, RequestNotFoundException.class, UserNotFoundException.class})
+    @ExceptionHandler({CategoryNotFoundException.class, CompilationNotFoundException.class, EventNotFoundException.class,
+            RequestNotFoundException.class, UserNotFoundException.class, CommentNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFoundException(NoSuchElementException e) {
         log.warn(e.getMessage());
