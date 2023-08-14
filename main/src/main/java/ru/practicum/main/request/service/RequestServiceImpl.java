@@ -30,6 +30,7 @@ public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
     private final UserRepository userRepository;
 
+    @Override
     public ParticipationRequestDto create(Long userId, Long eventId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
@@ -54,6 +55,7 @@ public class RequestServiceImpl implements RequestService {
         )));
     }
 
+    @Override
     public ParticipationRequestDto update(Long userId, Long requestId) {
         if (!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
         Request request = requestRepository.findById(requestId).orElseThrow(() -> new RequestNotFoundException(requestId));
@@ -62,6 +64,7 @@ public class RequestServiceImpl implements RequestService {
         return RequestMapper.toDto(requestRepository.save(request));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<ParticipationRequestDto> getAll(Long userId) {
         if (!userRepository.existsById(userId)) throw new UserNotFoundException(userId);

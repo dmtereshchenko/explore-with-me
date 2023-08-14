@@ -3,6 +3,7 @@ package ru.practicum.main.event.mapper;
 import ru.practicum.Constant;
 import ru.practicum.main.category.mapper.CategoryMapper;
 import ru.practicum.main.category.model.Category;
+import ru.practicum.main.comment.dto.CommentShortDto;
 import ru.practicum.main.event.dto.EventFullDto;
 import ru.practicum.main.event.dto.EventShortDto;
 import ru.practicum.main.event.dto.NewEventDto;
@@ -13,6 +14,8 @@ import ru.practicum.main.user.mapper.UserMapper;
 import ru.practicum.main.user.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 public class EventMapper {
 
@@ -41,6 +44,7 @@ public class EventMapper {
                 CategoryMapper.toDto(event.getCategory()),
                 event.getLocation(),
                 UserMapper.toShortDto(event.getInitiator()),
+                null,
                 0,
                 0,
                 event.getParticipantLimit(),
@@ -56,12 +60,13 @@ public class EventMapper {
         );
     }
 
-    public static EventFullDto toFullDto(Event event, long views, long confirmedRequests) {
+    public static EventFullDto toFullDto(Event event, long views, long confirmedRequests, List<CommentShortDto> comments) {
         return new EventFullDto(
                 event.getId(),
                 CategoryMapper.toDto(event.getCategory()),
                 event.getLocation(),
                 UserMapper.toShortDto(event.getInitiator()),
+                comments,
                 confirmedRequests,
                 views,
                 event.getParticipantLimit(),
@@ -95,16 +100,16 @@ public class EventMapper {
                 category,
                 location,
                 event.getInitiator(),
-                request.getParticipantLimit() == null ? event.getParticipantLimit() : request.getParticipantLimit(),
-                request.getPaid() == null ? event.isPaid() : request.getPaid(),
-                request.getRequestModeration() == null ? event.isRequestModeration() : request.getRequestModeration(),
-                request.getAnnotation() == null ? event.getAnnotation() : request.getAnnotation(),
-                request.getDescription() == null ? event.getDescription() : request.getDescription(),
+                Objects.requireNonNullElse(request.getParticipantLimit(), event.getParticipantLimit()),
+                Objects.requireNonNullElse(request.getPaid(), event.isPaid()),
+                Objects.requireNonNullElse(request.getRequestModeration(), event.isRequestModeration()),
+                Objects.requireNonNullElse(request.getAnnotation(), event.getAnnotation()),
+                Objects.requireNonNullElse(request.getDescription(), event.getDescription()),
                 request.getStateAction() == null ? event.getState() : StateMapper.toState(request.getStateAction()),
-                request.getTitle() == null ? event.getTitle() : request.getTitle(),
+                Objects.requireNonNullElse(request.getTitle(), event.getTitle()),
                 event.getCreatedOn(),
-                request.getEventDate() == null ? event.getEventDate() : request.getEventDate(),
-                event.getEventDate()
+                Objects.requireNonNullElse(request.getEventDate(), event.getEventDate()),
+                event.getPublishedOn()
         );
     }
 }

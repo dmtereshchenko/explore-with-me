@@ -21,16 +21,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    @Override
     public UserDto create(NewUserRequest newUserRequest) {
         if (userRepository.existsByName(newUserRequest.getName()))
             throw new SomethingWentWrongException("Невозможно создать пользователя с уже существующим именем.");
         return UserMapper.toDto(userRepository.save(UserMapper.toUser(newUserRequest)));
     }
 
+    @Override
     public void delete(Long userId) {
         userRepository.delete(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId)));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<UserDto> getAll(List<Long> userIds, int from, int size) {
         if (userIds != null) {

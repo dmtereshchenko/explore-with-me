@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.Constant;
 import ru.practicum.main.category.dto.CategoryDto;
+import ru.practicum.main.comment.dto.CommentShortDto;
 import ru.practicum.main.event.model.Location;
 import ru.practicum.main.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class EventFullDto implements Comparable<EventFullDto> {
     private CategoryDto category;
     private Location location;
     private UserShortDto initiator;
+    private List<CommentShortDto> comments;
     private long confirmedRequests;
     private long views;
     private int participantLimit;

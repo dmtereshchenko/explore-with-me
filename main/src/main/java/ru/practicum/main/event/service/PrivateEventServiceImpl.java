@@ -38,6 +38,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
     private final RequestRepository requestRepository;
     private final UserRepository userRepository;
 
+    @Override
     public EventFullDto create(Long userId, NewEventDto newEventDto) {
         return EventMapper.toFullDto(eventRepository.save(EventMapper.toEvent(
                 newEventDto,
@@ -46,6 +47,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                 userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId)))));
     }
 
+    @Override
     public EventFullDto update(Long userId, Long eventId, UpdateEventRequest request) {
         if (!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
@@ -60,6 +62,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
         ));
     }
 
+    @Override
     public EventRequestStatusUpdateResponse updateRequestsStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest requestsForUpdate) {
         if (!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
@@ -93,15 +96,17 @@ public class PrivateEventServiceImpl implements PrivateEventService {
         }
     }
 
+    @Override
     @Transactional(readOnly = true)
     public EventFullDto get(Long userId, Long eventId) {
         if (!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
         if (!event.getInitiator().getId().equals(userId))
-            throw new ActionNotAvailableException("Невозможно редактировать чужое событие.");
+            throw new ActionNotAvailableException("Невозможно просматривать чужое событие.");
         return EventMapper.toFullDto(event);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<EventShortDto> getAll(Long userId, int from, int size) {
         return eventRepository.findEventsByInitiator(
@@ -111,6 +116,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<ParticipationRequestDto> getAllParticipationsByEvent(Long userId, Long eventId) {
         if (!userRepository.existsById(userId)) throw new UserNotFoundException(userId);

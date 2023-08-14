@@ -9,6 +9,7 @@ import ru.practicum.main.event.model.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CompilationMapper {
@@ -36,8 +37,8 @@ public class CompilationMapper {
     public static Compilation toCompilationUpdated(Compilation compilation, UpdateCompilationAdminRequest request, List<Event> events) {
         return new Compilation(
                 compilation.getId(),
-                request.getTitle() == null ? compilation.getTitle() : request.getTitle(),
-                request.getPinned() == null ? compilation.isPinned() : request.getPinned(),
+                Objects.requireNonNullElse(request.getTitle(), compilation.getTitle()),
+                Objects.requireNonNullElse(request.getPinned(), compilation.isPinned()),
                 events.isEmpty() ? compilation.getEvents() : events
         );
     }
