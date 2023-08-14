@@ -13,6 +13,7 @@ import java.util.Map;
 public class BaseClient {
 
     protected final RestTemplate rest;
+    protected final String serverUrl;
 
     private static ResponseEntity<Object> prepareResponse(ResponseEntity<Object> response) {
         if (response.getStatusCode().is2xxSuccessful()) {
